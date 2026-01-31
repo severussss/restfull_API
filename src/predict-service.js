@@ -7,16 +7,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export async function predictImage(photo) {
-  // Konversi gambar ke RGB jika diperlukan
   let tensor = tf.node.decodeImage(photo);
 
-  // Pastikan gambar berformat RGB (224x224x3)
   if (tensor.shape[2] === 4) {
-    // Jika gambar berformat RGBA, konversi menjadi RGB
     tensor = tensor.slice([0, 0, 0], [-1, -1, 3]);
   }
 
-  // Resize gambar menjadi 224x224
   tensor = tensor.resizeNearestNeighbor([224, 224]).expandDims().toFloat();
 
   const modelPath = `file://${resolve(__dirname, '..', 'model', 'model.json')}`;
