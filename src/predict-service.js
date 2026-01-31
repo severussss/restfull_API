@@ -21,7 +21,7 @@ export async function predictImage(photo) {
   const predict = model.predict(tensor);
   const score = await predict.data();
   const confidenceScore = Math.max(...score);
-  const label = tf.argMax(predict, 0.1).dataSync()[0];
+  const label = tf.argMax(predict, 1).dataSync()[0];
 
   const diseaseLabels = metadata.labels;
   const diseaseLabel = diseaseLabels[label];
